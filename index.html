@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>—</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #f6efe9, #f2e7dd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Libre Baskerville", serif;
+      color: #3a2f28;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 28px;
+      box-sizing: border-box;
+      background: #fffaf6;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      text-align: center;
+    }
+
+    .header {
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      color: #8b7566;
+      margin-bottom: 18px;
+    }
+
+    .daily {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #6f5a4c;
+      margin-bottom: 26px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #eaded4;
+    }
+
+    .daily span {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: #a08b7b;
+      margin-bottom: 6px;
+    }
+
+    #text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 999px;
+      background: #e4c9b8;
+      color: #3a2f28;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #dbb9a4;
+    }
+
+    button:active {
+      background: #d1aa93;
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 0.75rem;
+      color: #8b7566;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">Anastasia’s little moment</div>
+
+    <div class="daily">
+      <span>TODAY’S QUESTION</span>
+      <div id="daily-question"></div>
+    </div>
+
+    <div id="text">Loading…</div>
+
+    <button id="btn">Another</button>
+
+    <div class="hint">Nothing here needs a response.</div>
+  </div>
+
+  <script>
+    // Mostly thoughts (primary content)
+    const thoughts = [
+      "Some days work best when they're treated simply.",
+      "Not everything needs to be resolved immediately.",
+      "Attention is often more important than effort.",
+      "A steady pace is usually underestimated.",
+      "Clarity tends to arrive when things are left alone for a moment.",
+      "It's fine if today is more about consistency than progress.",
+      "There's value in doing things carefully rather than quickly.",
+      "You don't need to push for momentum every day.",
+      "Handling complexity calmly is a skill.",
+      "Certain people come to mind in unremarkable moments.",
+      "Some impressions stay longer than expected.",
+      "Not everything that's noticed needs to be explained.",
+      "Your smile is one of those things that changes the atmosphere of a moment.",
+      "A good sense of humor is easy to recognize - and easy to appreciate.",
+      "If you ever need someone to send you well-timed, funny reels, I'm reliably available.",
+      "That's the whole thought.",
+      "Nothing further.",
+      "This can sit here quietly."
+    ];
+
+    // Questions (used rarely + daily)
+    const questions = [
+      "What kind of day would feel kind to you right now?",
+      "When do you feel most like yourself?",
+      "What usually helps you slow down?",
+      "What’s something small you’ve been appreciating lately?",
+      "What makes a day feel complete for you?",
+      "What’s something you’re quietly looking forward to?",
+      "What helps you feel grounded when things are busy?"
+    ];
+
+    let lastIndex = -1;
+
+    function showThought() {
+      let showQuestion = Math.random() < 0.18; // ~18% chance
+      let pool = showQuestion ? questions : thoughts;
+
+      let index;
+      do {
+        index = Math.floor(Math.random() * pool.length);
+      } while (index === lastIndex);
+
+      lastIndex = index;
+      document.getElementById("text").innerText = pool[index];
+    }
+
+    function setDailyQuestion() {
+      const today = new Date().toISOString().slice(0, 10);
+      const index = today.split("-").reduce((a, b) => a + Number(b), 0) % questions.length;
+      document.getElementById("daily-question").innerText = questions[index];
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setDailyQuestion();
+      showThought();
+      document.getElementById("btn").addEventListener("click", showThought);
+    });
+  </script>
+</body>
+</html>
